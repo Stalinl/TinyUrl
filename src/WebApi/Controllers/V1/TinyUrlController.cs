@@ -1,4 +1,4 @@
-﻿namespace WebApi.Controllers.V1
+﻿namespace TinyUrl.WebApi.Controllers.V1
 {
     using System.Web.Http;
 
