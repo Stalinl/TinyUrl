@@ -6,7 +6,7 @@
     using TinyUrl.Core;
 
     [RoutePrefix("api/v1")]
-    public class TinyUrlController : ApiController
+    public sealed class TinyUrlController : ApiController
     {
         private readonly ITinyUrlService urlService;
 
