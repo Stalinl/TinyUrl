@@ -82,14 +82,13 @@
             return this;
         }
 
-        public async Task<TinyUrlControllerSteps> ThenIShouldExpectResponseContentBodyToMatch<T>(T expected)
+        public async Task<TinyUrlControllerSteps> ThenIShouldExpectResponseContentBodyToMatchAsync(string expected)
         {
             this.httpResponse.Content.Should().NotBeNull();
 
             var content = await this.httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
-            var actual = JsonConvert.DeserializeObject<T>(content);
-            actual.Should().NotBeNull();
-            actual.Should().BeEquivalentTo(expected, options => options.RespectingRuntimeTypes());
+            content.Should().NotBeNull();
+            content.Should().Contain(expected);
             return this;
         }
 

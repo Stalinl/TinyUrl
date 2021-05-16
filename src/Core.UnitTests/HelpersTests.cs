@@ -1,9 +1,6 @@
 ﻿namespace TinyUrl.Core.UnitTests
 {
     using System;
-    using System.Linq;
-    using System.Security.Cryptography;
-    using System.Text;
 
     using FluentAssertions;
     using Xunit;
@@ -56,7 +53,6 @@
         {
             Helpers.TryDecode(encodedData, out int _).Should().BeFalse();
         }
-
 
         [Theory]
         [InlineData("", typeof(ArgumentException))]
