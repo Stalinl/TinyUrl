@@ -1,5 +1,6 @@
 ﻿namespace TinyUrl.WebApi.Controllers.V1
 {
+    using System.Threading.Tasks;
     using System.Web.Http;
 
     using EnsureThat;
@@ -15,10 +16,18 @@
             this.urlService = EnsureArg.IsNotNull(urlService, nameof(urlService));
         }
 
-        // GET
-        public IHttpActionResult Index()
+        [HttpGet]
+        [Route("get")]
+        public async Task<IHttpActionResult> GetAsync([FromUri] string url)
         {
-            return this.Ok();
+            return this.Ok(url);
+        }
+
+        [HttpPost]
+        [Route("create")]
+        public async Task<IHttpActionResult> PostAsync([FromUri] string url)
+        {
+            return this.Ok(url);
         }
     }
 }
