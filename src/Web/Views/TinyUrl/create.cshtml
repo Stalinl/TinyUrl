@@ -1,0 +1,24 @@
+﻿@{
+    ViewBag.Title = "Welcome to Tiny Url";
+    var result = ViewBag.Result ?? string.Empty;
+}
+
+<h2>Tiny Url - Create Tiny Url</h2>
+<hr />
+<div>
+    <div style="margin: 10px 5px;">
+        @using (Html.BeginForm("create", "TinyUrl", FormMethod.Post))
+        {
+            <div style="display:inline-block; padding: 5px 5px;">
+                <label for="longUrl">Your Tiny Url<span class="text-red">*</span></label>
+                <input id="longUrl" name="longUrl" placeholder="Https://foo" maxlength="2048" />
+            </div>
+            <div style="display:inline-block">
+                <button type="submit" id="btn2" class="btn btn-primary">Get Original Url</button>
+            </div>
+            <div style="padding: 20px 5px;">
+                <label style="color:#00008b; font-style: italic; text-decoration: underline;">@result</label>
+            </div>
+        }
+    </div>
+</div>

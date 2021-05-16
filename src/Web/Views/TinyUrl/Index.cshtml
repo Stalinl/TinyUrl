@@ -1,0 +1,13 @@
+﻿@{
+    ViewBag.Title = "Welcome to Tiny Url";
+}
+
+<h2>Tiny Url</h2>
+<div>
+    <div>
+        Click here to <a href="@Url.Action("create", "TinyUrl")">Create</a> Tiny url
+    </div>
+    <div>
+        Click here to <a href="@Url.Action("get", "TinyUrl")">Get</a> Original Url from tiny url
+    </div>
+</div>

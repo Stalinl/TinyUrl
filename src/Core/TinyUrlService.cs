@@ -33,17 +33,13 @@
         public Task<string> GetOriginalUrlAsync(Uri tinyUri)
         {
             EnsureArg.IsNotNull(tinyUri, nameof(tinyUri));
-            return GetOriginalUrlAsync();
 
-            Task<string> GetOriginalUrlAsync()
+            if (Helpers.TryDecode(tinyUri.LocalPath?.Substring(1), out int id))
             {
-                if (Helpers.TryDecode(tinyUri.LocalPath?.Substring(1), out int id))
-                {
-                    return this.repository.GetByIdAsync(id);
-                }
-
-                return Task.FromResult(string.Empty);
+                return this.repository.GetByIdAsync(id);
             }
+
+            return Task.FromResult(string.Empty);
         }
 
         /// <inheritdoc/>
