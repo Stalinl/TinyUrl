@@ -77,6 +77,15 @@ stages:
           configuration: '$(buildConfiguration)'
           diagnosticsEnabled: true
 
+      - task: BuildQualityChecks@8
+        inputs:
+          checkCoverage: true
+          coverageFailOption: 'fixed'
+          coverageType: 'blocks'
+          coverageThreshold: '60'
+          buildConfiguration: '$(BuildConfiguration)'
+          buildPlatform: '$(BuildPlatform)'
+
       - task: CopyFiles@2
         inputs:
           SourceFolder: 'src/WebApi/bin/$(BuildConfiguration)/package'
