@@ -77,6 +77,12 @@ stages:
           configuration: '$(buildConfiguration)'
           diagnosticsEnabled: true
 
+      - task: DotNetCoreCLI@2
+        inputs:
+          command: 'test'
+          projects: '**/*UnitTests.csproj'
+          arguments: '--configuration $(buildConfiguration) --collect "Code coverage"'
+
       - task: BuildQualityChecks@8
         inputs:
           checkCoverage: true
