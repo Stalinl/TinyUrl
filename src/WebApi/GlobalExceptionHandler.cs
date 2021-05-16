@@ -1,6 +1,5 @@
 ﻿namespace TinyUrl.WebApi
 {
-    using System.Diagnostics.CodeAnalysis;
     using System.Net;
     using System.Net.Http;
     using System.Web.Http.ExceptionHandling;
@@ -10,7 +9,6 @@
 
     internal sealed class GlobalExceptionHandler : ExceptionHandler
     {
-        [ExcludeFromCodeCoverage]
         public override void Handle(ExceptionHandlerContext context)
         {
             // log the error. context.Exception

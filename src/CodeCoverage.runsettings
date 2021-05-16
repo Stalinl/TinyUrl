@@ -20,6 +20,8 @@
                 <ModulePath>.*msvc.*</ModulePath>
                 <!-- 3rd party -->
                 <ModulePath>.*Microsoft.*</ModulePath>
+                <ModulePath>.*dapper.*</ModulePath>
+                <ModulePath>*dapper*</ModulePath>
                 <ModulePath>.*FluentAssertions.*</ModulePath>
                 <ModulePath>.*Antlr3\.Runtime\..*</ModulePath>
                 <ModulePath>.*xunit\..*</ModulePath>
