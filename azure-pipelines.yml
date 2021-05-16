@@ -80,7 +80,7 @@ stages:
       - task: DotNetCoreCLI@2
         inputs:
           command: 'test'
-          projects: '**/*UnitTests.csproj'
+          projects: '$(System.DefaultWorkingDirectory)\**\Core.UnitTests.csproj'
           arguments: '--configuration $(buildConfiguration) --collect "Code coverage"'
 
       - task: BuildQualityChecks@8
