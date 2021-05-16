@@ -100,14 +100,14 @@ stages:
           ArtifactName: 'drop'
           publishLocation: 'Container'
 
-      - task: AzureWebApp@1
-        inputs:
-          azureSubscription: '<Azure subscription>'
-          appType: 'webApp'
-          appName: '<Name of web app>'
-          slotName: staging
-          package: '$(System.DefaultWorkingDirectory)/**/*.zip'
-          deploymentMethod: 'auto'
+      # - task: AzureWebApp@1
+      #   inputs:
+      #     azureSubscription: '<Azure subscription>'
+      #     appType: 'webApp'
+      #     appName: '<Name of web app>'
+      #     slotName: staging
+      #     package: '$(System.DefaultWorkingDirectory)/**/*.zip'
+      #     deploymentMethod: 'auto'
 
       # - task: AzureRmWebAppDeployment@4
       #   inputs:
