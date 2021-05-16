@@ -59,5 +59,59 @@ namespace TinyUrl.Core {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error: URL domain banned.
+        /// </summary>
+        public static string BannedUrlDomain {
+            get {
+                return ResourceManager.GetString("BannedUrlDomain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error: The URL field is required..
+        /// </summary>
+        public static string EmptyUrl {
+            get {
+                return ResourceManager.GetString("EmptyUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error: Invalid tiny Url.
+        /// </summary>
+        public static string InvalidInputTinyUrl {
+            get {
+                return ResourceManager.GetString("InvalidInputTinyUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error: Invalid URL.
+        /// </summary>
+        public static string InvalidUrl {
+            get {
+                return ResourceManager.GetString("InvalidUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error: The URL is too long.
+        /// </summary>
+        public static string TooLongUrl {
+            get {
+                return ResourceManager.GetString("TooLongUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An unhandled exception has occurred, please contact customer support.
+        /// </summary>
+        public static string UnhandledError {
+            get {
+                return ResourceManager.GetString("UnhandledError", resourceCulture);
+            }
+        }
     }
 }
