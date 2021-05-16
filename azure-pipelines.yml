@@ -77,6 +77,15 @@ stages:
           configuration: '$(buildConfiguration)'
           diagnosticsEnabled: true
 
+      - task: BuildQualityChecks@8
+        inputs:
+          checkCoverage: true
+          coverageFailOption: 'fixed'
+          coverageType: 'blocks'
+          coverageThreshold: '80'
+          buildConfiguration: '$(BuildConfiguration)'
+          buildPlatform: '$(BuildPlatform)'
+
       - task: CopyFiles@2
         inputs:
           SourceFolder: 'src/WebApi/bin/$(BuildConfiguration)/package'
@@ -91,12 +100,19 @@ stages:
           ArtifactName: 'drop'
           publishLocation: 'Container'
 
-      # - task: AzureWebApp@1
+      - task: AzureWebApp@1
+        inputs:
+          azureSubscription: '<Azure subscription>'
+          appType: 'webApp'
+          appName: '<Name of web app>'
+          slotName: staging
+          package: '$(System.DefaultWorkingDirectory)/**/*.zip'
+          deploymentMethod: 'auto'
+
+      # - task: AzureRmWebAppDeployment@4
       #   inputs:
-          # azureSubscription: 'EDQ Development RM'
-          # appType: 'webApp'
-          # appName: '<Name of web app>'
-          # slotName: staging
-          # package: '$(System.DefaultWorkingDirectory)/**/*.zip'
-          # deploymentMethod: 'auto'
+      #     ConnectionType: 'PublishProfile'
+      #     PublishProfilePath: '$(System.DefaultWorkingDirectory)/**/*.pubxml'
+      #     PublishProfilePassword: '******'
+      #     packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
  
