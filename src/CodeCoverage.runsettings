@@ -13,6 +13,11 @@
                 <ModulePath>.*\.exe$</ModulePath>
               </Include>
               <Exclude>
+                <!-- C++ stuff -->
+                <ModulePath>.*atl100.*</ModulePath>
+                <ModulePath>.*BuildInformation.*</ModulePath>
+                <ModulePath>.*CPPUnitTestFramework.*</ModulePath>
+                <ModulePath>.*msvc.*</ModulePath>
                 <!-- 3rd party -->
                 <ModulePath>.*Microsoft.*</ModulePath>
                 <ModulePath>.*FluentAssertions.*</ModulePath>
@@ -23,6 +28,11 @@
                 <ModulePath>.*moq.*</ModulePath>
                 <ModulePath>.*newtonsoft.*</ModulePath>
                 <ModulePath>.*tokens.jwt.*</ModulePath>
+                <!-- All possible test assembly names -->
+                <ModulePath>.*UnitTests?\..*</ModulePath>
+                <ModulePath>.*Tests?\..*</ModulePath>
+                <ModulePath>.*Mock?\..*</ModulePath>
+                <ModulePath>.*Selenium.*</ModulePath>
               </Exclude>
             </ModulePaths>
             <Attributes>
