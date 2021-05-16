@@ -1,0 +1,102 @@
+# Azure build definitiion
+name: $(semanticVersion)-Build$(rev:rrr)
+
+trigger:
+  batch: true
+  branches:
+    include:
+      - master
+
+variables:
+  solution: '**/*.sln'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+  semanticVersion: '1.1.0'
+  outDirPath: '$(Build.ArtifactStagingDirectory)\build'
+  WebsiteName: 'MyTinyUrl'
+  system.debug: false
+  DeployOnBuild: true
+
+stages: 
+  - stage: BuildSolution
+    displayName: 'Build, test and package the solution'
+    jobs:
+    - job: Build
+      pool:
+        vmImage: 'windows-latest'
+      steps:
+      - script: echo Running Build Task
+
+      - task: UseDotNet@2
+        inputs:
+          packageType: 'sdk'
+          version: '2.1.302'
+
+      - task: NuGetToolInstaller@1
+        displayName: 'Nuget Tool Installer'
+        continueOnError: false
+        inputs:
+          versionSpec: '5.x'
+
+      - task: DotNetCoreCLI@2
+        inputs:
+          command: 'restore'
+          projects: '$(System.DefaultWorkingDirectory)\**\Core.csproj'
+          feedsToUse: 'config'
+          nugetConfigPath: '.nuget/NuGet.config'
+
+      - task: NuGetCommand@2
+        displayName: 'Nuget Restore'
+        inputs:
+          command: 'restore'
+          restoreSolution: '$(solution)'
+          feedsToUse: 'config'
+          nugetConfigPath: '.nuget\NuGet.config'
+
+      - task: VSBuild@1
+        displayName: 'Build Solution'
+        inputs:
+          solution: '**\*.sln'
+          msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:PackageLocation=bin\$(BuildConfiguration)\package'
+          platform: '$(buildPlatform)'
+          configuration: '$(buildConfiguration)'
+          
+      - task: VSTest@2
+        displayName: 'Run Tests'
+        inputs:
+          testSelector: 'testAssemblies'
+          testAssemblyVer2: |
+            **\*tests.dll
+            !**\*TestAdapter.dll
+            !**\obj\**
+          searchFolder: '$(System.DefaultWorkingDirectory)'
+          runSettingsFile: 'src/CodeCoverage.runsettings'
+          runInParallel: true
+          codeCoverageEnabled: true
+          platform: '$(buildPlatform)'
+          configuration: '$(buildConfiguration)'
+          diagnosticsEnabled: true
+
+      - task: CopyFiles@2
+        inputs:
+          SourceFolder: 'src/WebApi/bin/$(BuildConfiguration)/package'
+          Contents: '**\*'
+          TargetFolder: '$(Build.ArtifactStagingDirectory)\Deployment\DeploymentPackages'
+          CleanTargetFolder: true
+
+      - task: PublishBuildArtifacts@1
+        displayName: 'Publish Build Artifacts: drop'
+        inputs:
+          PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+          ArtifactName: 'drop'
+          publishLocation: 'Container'
+
+      # - task: AzureWebApp@1
+      #   inputs:
+          # azureSubscription: 'EDQ Development RM'
+          # appType: 'webApp'
+          # appName: '<Name of web app>'
+          # slotName: staging
+          # package: '$(System.DefaultWorkingDirectory)/**/*.zip'
+          # deploymentMethod: 'auto'
+ 
