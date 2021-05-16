@@ -21,19 +21,10 @@
         [Route("get")]
         public async Task<IHttpActionResult> GetAsync([FromUri] string url)
         {
-            if (string.IsNullOrWhiteSpace(url))
+            var valid = TryValidateInputUrl(url, out Uri uri);
+            if (!valid.Item1)
             {
-                return this.BadRequest(Resources.EmptyUrl);
-            }
-
-            if (url.Length > 2048)
-            {
-                return this.BadRequest(Resources.TooLongUrl);
-            }
-
-            if (!Helpers.TryGetUrl(url, out Uri uri))
-            {
-                return this.BadRequest(Resources.InvalidUrl);
+                return this.BadRequest(valid.Item2);
             }
 
             if (!this.urlService.IsTinyUrl(uri))
@@ -54,19 +45,10 @@
         [Route("create")]
         public async Task<IHttpActionResult> PostAsync([FromUri] string url)
         {
-            if (string.IsNullOrWhiteSpace(url))
+            var valid = TryValidateInputUrl(url, out Uri uri);
+            if (!valid.Item1)
             {
-                return this.BadRequest(Resources.EmptyUrl);
-            }
-
-            if (url.Length > 2048)
-            {
-                return this.BadRequest(Resources.TooLongUrl);
-            }
-
-            if (!Helpers.TryGetUrl(url, out Uri uri))
-            {
-                return this.BadRequest(Resources.InvalidUrl);
+                return this.BadRequest(valid.Item2);
             }
 
             if (this.urlService.IsTinyUrl(uri))
@@ -76,6 +58,27 @@
 
             var tinyUrl = await this.urlService.GetTinyUrlAsync(uri).ConfigureAwait(false);
             return this.Ok(tinyUrl);
+        }
+
+        private static (bool, string) TryValidateInputUrl(string url, out Uri uri)
+        {
+            uri = null;
+            if (string.IsNullOrWhiteSpace(url))
+            {
+                return (false, Resources.EmptyUrl);
+            }
+
+            if (url.Length > 2048)
+            {
+                return (false, Resources.TooLongUrl);
+            }
+
+            if (!Helpers.TryGetUrl(url, out uri))
+            {
+                return (false, Resources.InvalidUrl);
+            }
+
+            return (true, null);
         }
     }
 }

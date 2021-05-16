@@ -24,28 +24,8 @@
         [InlineData(1000, "MTAwMA==")]
         public void HelpersEncode_ValidData_ReturnsExpected(int data, string expected)
         {
-            var urlsafe = string.Empty;
-            Enumerable.Range(48, 75)
-              .Where(i => i < 58 || i > 64 && i < 91 || i > 96)
-              .OrderBy(o => new Random().Next())
-              .ToList()
-              .ForEach(i => urlsafe += Convert.ToChar(i));
-            var v = urlsafe.Substring(new Random().Next(0, urlsafe.Length), new Random().Next(2, 6));
-
-            var id = Guid.NewGuid();
-            var resl1 = Convert.ToBase64String(id.ToByteArray(), Base64FormattingOptions.None); //PC7Mms9ahk+yx0JhVVRtEg 22char
-
-            var vv = GetHashBytes(id.ToString("N"));
-
             var result = Helpers.Encode(data);
             result.Should().Be(expected);
-
-            byte[] GetHashBytes(string s)
-            {
-                var bytes = Encoding.UTF8.GetBytes(s);
-                using (var sha1 = SHA1.Create())
-                    return sha1.ComputeHash(bytes);
-            }
         }
 
         [Theory]
