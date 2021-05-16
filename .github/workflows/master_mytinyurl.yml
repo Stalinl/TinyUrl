@@ -35,6 +35,6 @@ jobs:
       with:
         app-name: MyTinyUrl
         slot-name: Production
-        publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_8A97BBE2C891493587207EB3C7971497 }}
+        publish-profile: ${{ secret.**** }}
         package: \published\
 
