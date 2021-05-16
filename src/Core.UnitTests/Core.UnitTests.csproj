@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
     <AssemblyName>TinyUrl.Core.UnitTests</AssemblyName>
     <RootNamespace>TinyUrl.Core.UnitTests</RootNamespace>
     <IsPackable>false</IsPackable>
