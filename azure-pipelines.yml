@@ -82,7 +82,7 @@ stages:
           checkCoverage: true
           coverageFailOption: 'fixed'
           coverageType: 'blocks'
-          coverageThreshold: '60'
+          coverageThreshold: '80'
           buildConfiguration: '$(BuildConfiguration)'
           buildPlatform: '$(BuildPlatform)'
 
@@ -100,13 +100,6 @@ stages:
           ArtifactName: 'drop'
           publishLocation: 'Container'
 
-      - task: AzureRmWebAppDeployment@4
-        inputs:
-          ConnectionType: 'PublishProfile'
-          PublishProfilePath: '$(System.DefaultWorkingDirectory)/**/*.pubxml'
-          PublishProfilePassword: '******'
-          packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
-
       - task: AzureWebApp@1
         inputs:
           azureSubscription: '<Azure subscription>'
@@ -115,4 +108,11 @@ stages:
           slotName: staging
           package: '$(System.DefaultWorkingDirectory)/**/*.zip'
           deploymentMethod: 'auto'
+
+      # - task: AzureRmWebAppDeployment@4
+      #   inputs:
+      #     ConnectionType: 'PublishProfile'
+      #     PublishProfilePath: '$(System.DefaultWorkingDirectory)/**/*.pubxml'
+      #     PublishProfilePassword: '******'
+      #     packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
  
