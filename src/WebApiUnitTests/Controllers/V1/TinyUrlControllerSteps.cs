@@ -5,6 +5,7 @@
     using System.Net.Http;
     using System.Threading;
     using System.Threading.Tasks;
+    using System.Web.Http;
 
     using FluentAssertions;
     using Moq;
@@ -16,6 +17,7 @@
     {
         private readonly Mock<ITinyUrlService> tinyUrlService;
         private readonly TinyUrlController controller;
+        private readonly Mock<HttpRequestMessage> mockHttpRequest;
 
         private bool isDisposed;
         private HttpResponseMessage httpResponse;
@@ -23,7 +25,12 @@
         public TinyUrlControllerSteps()
         {
             this.tinyUrlService = new Mock<ITinyUrlService>();
-            this.controller = new TinyUrlController(this.tinyUrlService.Object);
+            this.mockHttpRequest = new Mock<HttpRequestMessage>();
+            this.controller = new TinyUrlController(this.tinyUrlService.Object)
+            {
+                Request = mockHttpRequest.Object,
+                Configuration = new HttpConfiguration(),
+            };
         }
 
         public TinyUrlControllerSteps GivenTinyUrlServiceChecksIsTinyUrl(bool isTinyUrl)

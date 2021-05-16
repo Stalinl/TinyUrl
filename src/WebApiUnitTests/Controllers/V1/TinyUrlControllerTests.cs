@@ -18,8 +18,9 @@
         {
             return new TheoryData<string>()
             {
-                { string.Empty },
                 { null },
+                { string.Empty },
+                { " " },
                 { new string('a', 5000) },
                 { "http:InvalidUrl.com" },
             };
@@ -29,8 +30,9 @@
         {
             return new TheoryData<string>()
             {
-                { string.Empty },
                 { null },
+                { string.Empty },
+                { " " },
                 { new string('a', 5000) },
                 { "http:InvalidUrl.com" },
             };
