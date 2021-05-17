@@ -2,7 +2,7 @@
 
 ## What is this project?
 
-This project contains Web api to convert long Url to Tiny Url and vise versa. There are is also a simple web application to visualize the functionalities.
+This project contains Web api to convert long Url to Tiny Url and vise versa. There is also a simple web application to visualize the functionalities.
 
 ## How do I get started?
 
@@ -16,7 +16,7 @@ Choose and install one of these supported IDEs:
 
 ## How do deploy
 
-* Find the YAML script file in the repository named as azure-pipelines.yml
+* Find the YAML script file in the repository named as `azure-pipelines.yml`
 * Fill out all the variables correctly and run in Azure DevOps
 * The Pipeline should provision the Sql database with required tables first
 * Then the pipeline will deploy the web Api with applicaiton-insight enabled for monitoring purpose
@@ -34,9 +34,12 @@ Choose and install one of these supported IDEs:
 
 * The solution has 87% code coverage for now.
 
-![alt text](https://github.com/Stalinl/TinyUrl/tree/master/docs/CodeCoverage1.png)
 
-![alt text](https://github.com/Stalinl/TinyUrl/tree/master/docs/CodeCoverage2.png)
+![Screenshot](https://raw.githubusercontent.com/Stalinl/TinyUrl/master/docs/CodeCoverage1.png)
+
+![Screenshot](https://raw.githubusercontent.com/Stalinl/TinyUrl/master/docs/CodeCoverage2.png)
+
+
 
 
 
