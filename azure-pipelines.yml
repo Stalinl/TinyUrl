@@ -15,7 +15,17 @@ variables:
   outDirPath: '$(Build.ArtifactStagingDirectory)\build'
   WebsiteName: 'MyTinyUrl'
   system.debug: false
-  DeployOnBuild: true
+  deployOnBuild: true
+  subscription: '<Specify your azure subscription detail>'
+  sqlServerName: '<Specify sql server name>'
+  sqlDbName: '<sql db name>'
+  sqlUsername: '<sql username>'
+  sqlPassword: '<sql password>'
+  sqlConnectionString: '<sql db connection string>'
+  ResourceGroupName : 'Azure ResourceGroupName'
+  ApplicationInsightName: 'Name of the application insight to provision'
+  Location: 'East US'
+  Kind: 'Web'
 
 stages: 
   - stage: BuildSolution
@@ -106,18 +116,39 @@ stages:
           ArtifactName: 'drop'
           publishLocation: 'Container'
 
-      #- task: AzureWebApp@1
-      #  inputs:
-      #    azureSubscription: '$(Subscription)'
-      #    appType: 'webApp'
-      #    appName: '$(WebsiteName)'
-      #    package: '$(System.DefaultWorkingDirectory)/**/*.zip'
-      #    deploymentMethod: 'auto'
+      - task: SqlAzureDacpacDeployment@1
+        displayName: 'Sql DacpacTask Deployment - To create database'
+        inputs:
+          azureSubscription: $(subscription)
+          ServerName: $(sqlServerName)
+          DatabaseName: $(sqlDbName)
+          SqlUsername: $(sqlUsername)
+          SqlPassword: $(sqlPassword)
+          DacpacFile: '$(System.DefaultWorkingDirectory)/**/Database.dacpac'
+
+      - task: AzureWebApp@1
+        displayName: 'Deploy web api'
+        inputs:
+          azureSubscription: '$(subscription)'
+          appType: 'webApp'
+          appName: '$(websiteName)'
+          package: '$(System.DefaultWorkingDirectory)/**/*.zip'
+          appSettings: '-TinyUrlBaseAddress "https://tiny.ul/" -DB.ConnectionStringKey "$(sqlConnectionString)"'
+          deploymentMethod: 'auto'
 
       # - task: AzureRmWebAppDeployment@4
+      #   displayName: 'Deploy web api Using Azure Publish Profile'
       #   inputs:
       #     ConnectionType: 'PublishProfile'
       #     PublishProfilePath: '$(System.DefaultWorkingDirectory)/**/*.pubxml'
       #     PublishProfilePassword: '******'
       #     packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
  
+      - task: AzurePowerShell@5
+        displayName: 'Provision applicatoin insight'
+        inputs:
+          azureSubscription: $(subscription)
+          ScriptType: 'FilePath'
+          ScriptPath: '$(System.DefaultWorkingDirectory)/**/Provision-ApplicationInsight.ps1'
+          ScriptArguments: '-ResourceGroupName "$(ResourceGroupName)" -Name "$(ApplicationInsightName)" -Location "$(Location)" -Kind "$(Kind)"'
+          azurePowerShellVersion: 'LatestVersion'
